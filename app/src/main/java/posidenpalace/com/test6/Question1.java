@@ -1,8 +1,10 @@
 package posidenpalace.com.test6;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -48,5 +50,10 @@ public class Question1 extends AppCompatActivity {
         Toast.makeText(this, "" + sum, Toast.LENGTH_SHORT).show();
 
 
+    }
+
+    public void toQuestion2(View view) {
+        Intent intent = new Intent(this,Question2.class);
+        startActivity(intent);
     }
 }

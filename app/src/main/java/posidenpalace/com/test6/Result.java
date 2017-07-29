@@ -1,13 +1,32 @@
 
 package posidenpalace.com.test6;
 
-import java.io.Serializable;
-import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+import java.util.List;
+
 public class Result implements Serializable
 {
+    Result result;
+
+    public Result(Result result) {
+        this.result = result;
+    }
+
+    public Result(Double voteAverage, String title, Double popularity, String posterPath, String originalLanguage, String overview, String releaseDate) {
+
+        this.voteAverage = voteAverage;
+        this.title = title;
+        this.popularity = popularity;
+        this.posterPath = posterPath;
+        this.originalLanguage = originalLanguage;
+        this.overview = overview;
+        this.releaseDate = releaseDate;
+    }
+
+
 
     @SerializedName("vote_count")
     @Expose
@@ -20,7 +39,7 @@ public class Result implements Serializable
     private Boolean video;
     @SerializedName("vote_average")
     @Expose
-    private Integer voteAverage;
+    private Double voteAverage;
     @SerializedName("title")
     @Expose
     private String title;
@@ -77,11 +96,11 @@ public class Result implements Serializable
         this.video = video;
     }
 
-    public Integer getVoteAverage() {
+    public Double getVoteAverage() {
         return voteAverage;
     }
 
-    public void setVoteAverage(Integer voteAverage) {
+    public void setVoteAverage(Double voteAverage) {
         this.voteAverage = voteAverage;
     }
 
