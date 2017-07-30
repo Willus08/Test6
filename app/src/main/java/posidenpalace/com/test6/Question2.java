@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -20,7 +21,7 @@ public class Question2 extends AppCompatActivity {
     RecycleAdapter adapt;
     RecyclerView.ItemAnimator animator;
     RecyclerView.LayoutManager layoutManager;
-    List<Result> results;
+    List<MoviesList> movies = new ArrayList<>();
     EditText search;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +35,7 @@ public class Question2 extends AppCompatActivity {
       //  makeInitialCall();
     }
 
-    public void setUpRecycler(List<Result> results){
+    public void setUpRecycler(List<MoviesList> results){
         adapt = new RecycleAdapter(results);
         recy.setAdapter(adapt);
         recy.setItemAnimator(animator);
@@ -42,56 +43,41 @@ public class Question2 extends AppCompatActivity {
     }
 
 
-    public  void makeInitialCall(){
 
-        retrofit2.Call<Movies> moviesCall = RetroHelper.InitialCall();
-        moviesCall.enqueue(new retrofit2.Callback<Movies>() {
-
-
-            @Override
-            public void onResponse(Call<Movies> call, Response<Movies> response) {
-                for (int i = 0; i < response.body().getResults().size(); i++) {
-                    results.add(new Result(response.body().getResults().get(i)));
-
-                }
-                setUpRecycler(results);
-            }
-
-            @Override
-            public void onFailure(Call<Movies> call, Throwable t) {
-
-            }
-        });
-
-
-    }
 
     public void search(View view) {
-        if(results!= null){
-            results.clear();
+        if(movies!= null){
+            movies.clear();
         }
         retrofit2.Call<Movies> moviesCall = RetroHelper.SearchCall(search.getText().toString(),1);
         moviesCall.enqueue(new retrofit2.Callback<Movies>() {
 
 
+
             @Override
             public void onResponse(Call<Movies> call, Response<Movies> response) {
                 for (int i = 0; i < response.body().getResults().size(); i++) {
-                   // results.add(new Result(response.body().getResults().get(i)));
-                    Log.d(TAG, "onResponse: " + response.body().getResults().get(i).getTitle());
-                    results.add(new Result(
+
+                    Log.d(TAG, "onResponse: " +
+                                  "vote Average: " +  response.body().getResults().get(i).getVoteAverage()+
+                            "title: "+response.body().getResults().get(i).getTitle()+
+                            "Poster Path: "+response.body().getResults().get(i).getPosterPath()+
+                            "Overview: "+response.body().getResults().get(i).getOverview()+
+                            "Date: "+response.body().getResults().get(i).getReleaseDate()+
+                            "votes"+response.body().getResults().get(i).getVoteCount());
+                    MoviesList movie = new MoviesList(response.body().getResults().get(i).getTitle(),
                             response.body().getResults().get(i).getVoteAverage(),
-                            response.body().getResults().get(i).getTitle(),
-                            response.body().getResults().get(i).getPopularity(),
                             response.body().getResults().get(i).getPosterPath(),
-                            response.body().getResults().get(i).getOriginalLanguage(),
                             response.body().getResults().get(i).getOverview(),
-                            response.body().getResults().get(i).getReleaseDate()));
+                            response.body().getResults().get(i).getReleaseDate(),
+                            response.body().getResults().get(i).getVoteCount(),
+                            response.body().getResults().get(i).getOriginalLanguage());
+                    Log.d(TAG, "onResponse: " + movie.getTitle());
+                   movies.add(movie);
 
-
-                    Log.d(TAG, "onResponse: " + response.body().getResults().get(i));
                 }
-                setUpRecycler(results);
+                setUpRecycler(movies);
+
 
             }
 

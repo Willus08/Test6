@@ -15,13 +15,13 @@ public class Result implements Serializable
         this.result = result;
     }
 
-    public Result(Double voteAverage, String title, Double popularity, String posterPath, String originalLanguage, String overview, String releaseDate) {
+    public Result(Double voteAverage, String title, Double popularity, String posterPath, String overview, String releaseDate) {
 
         this.voteAverage = voteAverage;
         this.title = title;
         this.popularity = popularity;
         this.posterPath = posterPath;
-        this.originalLanguage = originalLanguage;
+
         this.overview = overview;
         this.releaseDate = releaseDate;
     }

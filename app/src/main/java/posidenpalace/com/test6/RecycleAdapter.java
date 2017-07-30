@@ -1,5 +1,7 @@
 package posidenpalace.com.test6;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,10 +19,10 @@ import java.util.List;
 
 
 public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHolder> {
-   List<Result> tempPojoList = new ArrayList<>();
+   List<MoviesList> moviesList = new ArrayList<>();
 
-    public RecycleAdapter(List<Result> temp) {
-        this.tempPojoList = temp;
+    public RecycleAdapter(List<MoviesList> temp) {
+        this.moviesList = temp;
     }
 
     @Override
@@ -31,9 +33,9 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final Result temp = tempPojoList.get(position);
-        holder.title.setText(temp.getTitle());
-        holder.description.setText(temp.getOverview());
+        final MoviesList temp = moviesList.get(position);
+        holder.title.setText("Title: "+temp.getTitle());
+        holder.language.setText("Language: "+temp.getLanguage());
         Glide.with(holder.itemView.getContext()).load(temp.getPosterPath()).into(holder.picture);
 
         holder.container.setOnClickListener(new View.OnClickListener() {
@@ -41,11 +43,11 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
             public void onClick(View v) {
 
                 Toast.makeText(v.getContext(), "Passing: "+ temp.getTitle(), Toast.LENGTH_SHORT).show();
-//                Intent intent = new Intent(v.getContext(), .class);
-//                Bundle bundle = new Bundle();
-//                bundle.putParcelable("place" ,  place);
-//                intent.putExtras(bundle);
-                //v.getContext().startActivity(intent);
+                Intent intent = new Intent(v.getContext(), Details.class);
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("movie" ,  temp);
+                intent.putExtras(bundle);
+                v.getContext().startActivity(intent);
             }
 
         });
@@ -54,18 +56,18 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        return tempPojoList.size();
+        return moviesList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView title;
-        TextView description;
+        TextView language;
         ImageView picture;
         FrameLayout container;
         public ViewHolder(View itemView) {
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.tvTitle);
-            description = (TextView) itemView.findViewById(R.id.tvDescription);
+            language = (TextView) itemView.findViewById(R.id.tvLanguage);
             picture = (ImageView) itemView.findViewById(R.id.ivPicture);
             container = (FrameLayout) itemView.findViewById(R.id.flContainer);
         }
